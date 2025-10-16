@@ -1,8 +1,6 @@
 package org.example.ecommerceapp.repository;
 
-import org.example.ecommerceapp.models.Category;
 import org.example.ecommerceapp.models.Product;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,22 +10,11 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-
-    @EntityGraph(attributePaths = {"category"})
-    @Query("select p from Product p")
-    List<Product> findAll();
-
-    List<Product> findProductsByNameContainingIgnoreCase(String name);
-
-    List<Product> findByCategory(Category category);
-
-    List<Product> findByPriceBetween(BigDecimal price, BigDecimal priceBefore);
-
-    List<Product> findByStockGreaterThan(Integer stockIsGreaterThan);
-
+    @Query("select p from Product p ORDER BY p.price DESC ")
     List<Product> findAllByOrderByPriceDesc();
 
+    @Query("select p from Product p ORDER BY p.price ASC ")
     List<Product> findAllByOrderByPriceAsc();
 
-    List<Product> findByCategoryAndPriceBetweenAndStockGreaterThan(Category category, BigDecimal priceAfter, BigDecimal priceBefore, Integer stockIsGreaterThan);
+    List<Product> findAllByPriceBetween(BigDecimal priceAfter, BigDecimal priceBefore);
 }

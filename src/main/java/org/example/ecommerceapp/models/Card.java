@@ -1,4 +1,4 @@
 package org.example.ecommerceapp.models;
 
-public class User {
+public class Card {
 }
