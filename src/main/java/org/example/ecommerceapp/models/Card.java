@@ -1,4 +1,31 @@
 package org.example.ecommerceapp.models;
 
-public class Card {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@Table(name = "cards")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Card extends BaseEntity{
+    @Column(nullable = false, unique = true)
+    private String cardNumber;
+
+    @Column(nullable = false)
+    private String cardHolderName;
+
+    @Column(nullable = false)
+    private String expirationDate;
+
+    @Column(nullable = false)
+    private String cvv;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
