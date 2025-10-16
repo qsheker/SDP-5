@@ -1,11 +1,12 @@
 package org.example.ecommerceapp.payment.ConcreteClasses;
 
 import lombok.Data;
+import org.example.ecommerceapp.factory.PaymentFactory;
 import org.example.ecommerceapp.models.enums.PaymentMethod;
 import org.example.ecommerceapp.payment.BaseComponent.Payment;
 
 @Data
-public class PayPalPayment implements Payment {
+public class PayPalPayment implements Payment, PaymentFactory {
     private String paymentMethod;
 
     @Override
@@ -18,5 +19,10 @@ public class PayPalPayment implements Payment {
     @Override
     public double process(double amount) {
         return amount;
+    }
+
+    @Override
+    public Payment getPayment() {
+        return new PayPalPayment();
     }
 }

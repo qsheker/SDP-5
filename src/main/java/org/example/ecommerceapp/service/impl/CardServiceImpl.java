@@ -7,6 +7,7 @@ import org.example.ecommerceapp.repository.UserRepository;
 import org.example.ecommerceapp.service.CardService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -29,5 +30,19 @@ public class CardServiceImpl implements CardService {
     @Override
     public List<Card> getAllCardsByUserId(Long id) {
         return cardRepository.findAllByUserId(id);
+    }
+    @Override
+    public Card checkForValid(List<Card> cardList, BigDecimal total){
+        for(Card card: cardList){
+            if(card.getAmount().compareTo(total)>=0){
+                return card;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void update(Card card) {
+        cardRepository.save(card);
     }
 }
