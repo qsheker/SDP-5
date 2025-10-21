@@ -1,7 +1,7 @@
 package org.example.ecommerceapp.controller;
 
 
-import org.example.ecommerceapp.dto.checkout.CheckoutRequest;
+import org.example.ecommerceapp.web.dto.checkout.CheckoutRequest;
 import org.example.ecommerceapp.models.Card;
 import org.example.ecommerceapp.models.enums.OrderStatus;
 import org.example.ecommerceapp.service.CardService;

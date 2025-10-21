@@ -6,6 +6,7 @@ import org.example.ecommerceapp.repository.CardRepository;
 import org.example.ecommerceapp.repository.UserRepository;
 import org.example.ecommerceapp.service.CardService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,11 +22,11 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void save(Card card, Long userId) {
+    public Card save(Card card, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         card.setUser(user);
-        cardRepository.save(card);
+        return cardRepository.save(card);
     }
     @Override
     public List<Card> getAllCardsByUserId(Long id) {
@@ -45,4 +46,21 @@ public class CardServiceImpl implements CardService {
     public void update(Card card) {
         cardRepository.save(card);
     }
+
+    @Transactional
+    @Override
+    public void addAmount(BigDecimal amount, Long userId, String cardNumber) {
+        List<Card> results = cardRepository.findAllByUserId(userId);
+
+        for (Card card : results) {
+            if (card.getCardNumber().equalsIgnoreCase(cardNumber)) {
+                card.setAmount(card.getAmount().add(amount));
+                cardRepository.save(card);
+                return;
+            }
+        }
+
+        throw new RuntimeException("Card not found for userId " + userId + " with card number " + cardNumber);
+    }
+
 }

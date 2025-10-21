@@ -1,6 +1,6 @@
 package org.example.ecommerceapp.service.impl;
 
-import org.example.ecommerceapp.dto.checkout.CheckoutRequest;
+import org.example.ecommerceapp.web.dto.checkout.CheckoutRequest;
 import org.example.ecommerceapp.models.enums.PaymentMethod;
 import org.example.ecommerceapp.payment.BaseComponent.Payment;
 import org.example.ecommerceapp.payment.ConcreteClasses.CreditCardPayment;

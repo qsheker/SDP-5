@@ -9,7 +9,8 @@ import java.util.List;
 @Service
 public interface CardService {
     List<Card> getAllCardsByUserId(Long id);
-    void save(Card card, Long id);
+    Card save(Card card, Long id);
     Card checkForValid(List<Card> cardList, BigDecimal total);
     void update(Card card);
+    void addAmount(BigDecimal amount, Long userId, String cardNumber);
 }

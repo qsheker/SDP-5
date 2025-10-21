@@ -1,4 +1,4 @@
-package org.example.ecommerceapp.dto.checkout;
+package org.example.ecommerceapp.web.dto.checkout;
 
 import lombok.Data;
 import org.example.ecommerceapp.models.enums.PaymentMethod;

@@ -2,6 +2,10 @@ package org.example.ecommerceapp.controller;
 
 import org.example.ecommerceapp.models.User;
 import org.example.ecommerceapp.service.UserService;
+import org.example.ecommerceapp.web.dto.user.UserRequestDto;
+import org.example.ecommerceapp.web.dto.user.UserResponseDto;
+import org.example.ecommerceapp.web.mappers.user.UserRequestMapper;
+import org.example.ecommerceapp.web.mappers.user.UserResponseMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +15,13 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserRequestMapper userRequestMapper;
+    private final UserResponseMapper userResponseMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRequestMapper userRequestMapper, UserResponseMapper userResponseMapper) {
         this.userService = userService;
+        this.userRequestMapper = userRequestMapper;
+        this.userResponseMapper = userResponseMapper;
     }
 
     @GetMapping
@@ -22,24 +30,31 @@ public class UserController {
     }
 
     @PutMapping("/save")
-    public void save(@RequestBody User user){
-        userService.save(user);
+    public void save(@RequestBody UserRequestDto user){
+        User entity = userRequestMapper.toEntity(user);
+        userService.save(entity);
     }
+
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable("id") Long id){
         userService.deleteUserById(id);
     }
+
     @GetMapping("{id}")
     public User findUserById(@PathVariable("id") Long id){
         return userService.findById(id);
     }
+
     @PostMapping
-    public User updateUser(@RequestBody User user){
-        return userService.update(user);
+    public UserResponseDto updateUser(@RequestBody UserRequestDto user){
+        User entity = userRequestMapper.toEntity(user);
+        var updated = userResponseMapper.toDto(userService.update(entity));
+        return updated;
     }
+
     @PatchMapping("/{id}/{email}")
-    public User updateUserEmail(@PathVariable Long id, @PathVariable String email){
-        return userService.updateUserEmailById(id,email);
+    public UserRequestDto updateUserEmail(@PathVariable Long id, @PathVariable String email){
+        return userRequestMapper.toDto(userService.updateUserEmailById(id,email));
     }
 
 
